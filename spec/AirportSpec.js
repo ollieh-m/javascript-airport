@@ -1,34 +1,43 @@
 describe("Airport", function() {
 
 	var airport;
-	var airportB;
-	var plane;
+	var landedPlane = jasmine.createSpyObj('landed plane', ['isLandedStatus','landed','flying']);
+	var flyingPlane = jasmine.createSpyObj('flying plane', ['isLandedStatus','landed','flying']);
 
 	beforeEach( function() {
 		airport = new Airport();
-		airportB = new Airport();
-		plane = {};
-		plane.landed = jasmine.createSpy('landed spy');
-		plane.flying = jasmine.createSpy('flying spy');
+		landedPlane.isLandedStatus.and.returnValue(true);
+		flyingPlane.isLandedStatus.and.returnValue(false);
 	});
 
 	it("Should tell the plane to land", function() {
-		airport.land(plane);
-		expect(plane.landed).toHaveBeenCalled();
+		airport.land(flyingPlane);
+		expect(flyingPlane.landed).toHaveBeenCalled();
 	});
 
 	it("Should tell the plane to takeoff", function() {
-		airport.land(plane);
-		airport.launch(plane);
-		expect(plane.flying).toHaveBeenCalled();
+		airport.land(flyingPlane);
+		flyingPlane.isLandedStatus.and.returnValue(true);
+		airport.launch(flyingPlane);
+		expect(flyingPlane.flying).toHaveBeenCalled();
 	});
 
 	it("Should not land a landed plane", function() {
-		var landedPlane = jasmine.createSpyObj('landed plane', ['isLanded']);
-		landedPlane.isLanded.and.returnValue(true);
 		expect(function(){ 
-			airportB.land(landedPlane); 
+			airport.land(landedPlane); 
 		}).toThrowError('This plane is already landed!');
+	});
+
+	it("Should not launch a flying plane", function() {
+		expect(function(){
+			airport.launch(flyingPlane);
+		}).toThrowError('This plane is already airborne!');
+	});
+
+	it("Should not launch a plane that isn't already in the airport", function() {
+		expect(function(){
+			airport.launch(landedPlane);
+		}).toThrowError('This plane is not in the airport!');
 	});
 
 });

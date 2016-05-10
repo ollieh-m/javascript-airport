@@ -10,12 +10,12 @@ describe("Plane", function() {
 
   it("Should switch status to landed", function() {
     plane.landed();
-    expect(plane.isLanded).toEqual(true);
+    expect(plane.isLandedStatus()).toEqual(true);
   });
 
   it("Should switch status to flying", function() {
     plane.flying();
-    expect(plane.isLanded).toEqual(false);
+    expect(plane.isLandedStatus()).toEqual(false);
   });
 
 });

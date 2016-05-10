@@ -28,4 +28,4 @@ Can't land if:
 
 Can't take off if: 
   - plane is already airborne
-  - plane is not in the airport
+  - plane is not in the correct airport

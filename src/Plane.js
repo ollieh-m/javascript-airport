@@ -6,4 +6,8 @@ Plane.prototype.landed = function() {
 
 Plane.prototype.flying = function() {
   this.isLanded = false;
-}
+};
+
+Plane.prototype.isLandedStatus = function() {
+	return this.isLanded;
+};
