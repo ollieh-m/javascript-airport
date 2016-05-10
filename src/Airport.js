@@ -1,7 +1,12 @@
 function Airport(){};
 
 Airport.prototype.land = function(plane){
-	plane.landed();
+  
+  if (plane.isLanded) {
+    throw new Error("This plane is already landed!");
+  } else {
+    plane.landed();
+  }
 };
 
 Airport.prototype.launch = function(plane){
