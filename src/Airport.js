@@ -1,6 +1,7 @@
-function Airport(weather){
+function Airport(weather,capacity){
 	this.docked = [];
   this.weather = weather;
+  this.capacity = capacity || 20;
 };
 
 Airport.prototype.land = function(plane){
@@ -10,6 +11,9 @@ Airport.prototype.land = function(plane){
   if (plane.isLandedStatus()) {
     throw new Error("This plane is already landed!");
   }; 
+  if (this.docked.length >= this.capacity) {
+    throw new Error("The airport is full!");
+  };
   plane.landed();
   this.docked.push(plane);
 };
@@ -25,5 +29,7 @@ Airport.prototype.launch = function(plane){
   	throw new Error("This plane is not in the airport!");
   };
   plane.flying();
+  var index = this.docked.lastIndexOf(plane);
+  this.docked.splice(index,1);
 };
 
